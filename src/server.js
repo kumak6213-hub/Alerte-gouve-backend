@@ -58,3 +58,24 @@ app.post('/send-notif', async (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server started on port ${PORT}`);
 });
+app.post('/send-expo-notif', async (req, res) => {
+  const { token, title, body } = req.body;
+  
+  const message = {
+    to: token,
+    sound: 'default',
+    title: title,
+    body: body,
+  };
+
+  try {
+    await fetch('https://exp.host/--/api/v2/push/send', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(message),
+    });
+    res.json({ success: true });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
