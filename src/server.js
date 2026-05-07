@@ -1,4 +1,12 @@
-const express = require('express');
+app.post('/send-expo-notif', async (req, res) => {
+  const { token, title, body } = req.body;
+  await fetch('https://exp.host/--/api/v2/push/send', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ to: token, title, body, sound: 'default' }),
+  });
+  res.json({ success: true });
+});const express = require('express');
 const admin = require('firebase-admin');
 const serviceAccount = require('/etc/secrets/firebase.json');
 
