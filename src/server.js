@@ -49,3 +49,12 @@ app.post('/send-expo-notif', async (req, res) => {
 });
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+app.post('/send-expo-notif', async (req, res) => {
+  const { token, title, body } = req.body;
+  await fetch('https://exp.host/--/api/v2/push/send', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ to: token, title, body, sound: 'default' }),
+  });
+  res.json({ success: true });
+});
